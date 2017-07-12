@@ -6,7 +6,7 @@
 
 &nbsp;
 
-Supports travisCI and circleCI.
+Supports travis, circle and wercker.
 
 &nbsp;
 
