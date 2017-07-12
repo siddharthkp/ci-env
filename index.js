@@ -31,7 +31,7 @@ if (process.env.TRAVIS) {
   sha = process.env.WERCKER_GIT_COMMIT
   event = 'push'
   branch = process.env.WERCKER_GIT_BRANCH
-  ci = 'werker'
+  ci = 'wercker'
 }
 
 module.exports = { repo, sha, event, branch, ci }

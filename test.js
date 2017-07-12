@@ -12,7 +12,7 @@ console.log('values: ', repo, sha, event, branch, ci)
 test('ci is correctly set', t => {
   if (process.env.TRAVIS) t.is(ci, 'travis')
   else if (process.env.CIRCLECI) t.is(ci, 'circle')
-  else if (process.env.WERKER) t.is(ci, 'werker')
+  else if (process.env.WERCKER) t.is(ci, 'wercker')
 })
 
 test('repo is correctly set', t => t.is(repo, 'siddharthkp/ci-env'))
@@ -22,7 +22,7 @@ test('sha is set', t => {
     process.env.TRAVIS_PULL_REQUEST_SHA ||
     process.env.TRAVIS_COMMIT ||
     process.env.CIRCLE_SHA1 ||
-    WERCKER_GIT_COMMIT
+    process.env.WERCKER_GIT_COMMIT
 
   t.is(sha, real_sha)
 })
