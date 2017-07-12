@@ -4,9 +4,8 @@ build:
     - npm-install
 
     - script:
-        name: echo nodejs information
+        name: install ava
         code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
+          npm install ava
 
     - npm-test
