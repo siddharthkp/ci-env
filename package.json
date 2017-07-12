@@ -4,7 +4,7 @@
   "description": "Environment variables exposed by CI tools",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/ava"
+    "test": "ava"
   },
   "keywords": [
     "ci",
