@@ -1,0 +1,21 @@
+{
+  "name": "ci-env",
+  "version": "1.0.0",
+  "description": "Environment variables exposed by CI tools",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava"
+  },
+  "keywords": [
+    "ci",
+    "environment",
+    "variables",
+    "travis",
+    "circle"
+  ],
+  "author": "siddharthkp",
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "0.20.0"
+  }
+}
