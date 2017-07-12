@@ -4,8 +4,8 @@ build:
     - npm-install
 
     - script:
-        name: install ava
+        name: install dev dependencies
         code: |
-          npm install ava
+          npm install
 
     - npm-test
