@@ -15,7 +15,7 @@
   ],
   "author": "siddharthkp",
   "license": "MIT",
-  "dependencies": {
+  "devDependencies": {
     "ava": "0.20.0"
   }
 }
