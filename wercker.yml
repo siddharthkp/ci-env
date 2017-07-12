@@ -1,4 +1,4 @@
-box: werker/nodejs
+box: nodesource/trusty
 build:
   steps:
     - npm-install
