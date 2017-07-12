@@ -23,8 +23,15 @@ if (process.env.TRAVIS) {
   sha = process.env.CIRCLE_SHA1
   event = 'push'
   branch = process.env.CIRCLE_BRANCH
-
   ci = 'circle'
+} else if (process.env.WERCKER) {
+  repo =
+    process.env.WERCKER_GIT_OWNER + '/' + process.env.WERCKER_GIT_REPOSITORY
+
+  sha = process.env.WERCKER_GIT_COMMIT
+  event = 'push'
+  branch = process.env.WERCKER_GIT_BRANCH
+  ci = 'wercker'
 }
 
 module.exports = { repo, sha, event, branch, ci }
