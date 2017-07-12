@@ -2,9 +2,9 @@ box: nodesource/trusty
 build:
   steps:
     - npm-install
-    - npm-test
     - script:
-        name: echo nodejs information
-        code: |
-          echo "node version $(node -v) running"
-          echo "npm version $(npm -v) running"
+      name: echo nodejs information
+      code: |
+      echo "node version $(node -v) running"
+      echo "npm version $(npm -v) running"
+    - npm-test
