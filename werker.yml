@@ -1,0 +1,5 @@
+box: werker/nodejs
+build:
+  steps:
+    - npm-install
+    - npm-test
