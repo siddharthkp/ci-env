@@ -26,6 +26,5 @@ if (process.env.TRAVIS) {
 
   ci = 'circle'
 }
-sha = 'asd'
 
 module.exports = { repo, sha, event, branch, ci }
