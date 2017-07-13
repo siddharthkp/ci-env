@@ -1,0 +1,16 @@
+# sample drone CI config
+
+build:
+  test:
+    image: node:8
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=warn
+      - GITHUB_TOKEN=$$GITHUB_TOKEN
+    commands:
+      - env
+      - npm run bundlesize
+    when:
+      event:
+        - pull_request
+        - push
