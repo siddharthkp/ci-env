@@ -6,7 +6,7 @@ if (process.env.TRAVIS) {
   repo = process.env.TRAVIS_REPO_SLUG
   sha = process.env.TRAVIS_PULL_REQUEST_SHA || process.env.TRAVIS_COMMIT
   event = process.env.TRAVIS_EVENT_TYPE
-  commit_message = TRAVIS_COMMIT_MESSAGE
+  commit_message = process.env.TRAVIS_COMMIT_MESSAGE
 
   branch = process.env.TRAVIS_EVENT_TYPE === 'push'
     ? process.env.TRAVIS_BRANCH
