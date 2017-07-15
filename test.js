@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { repo, sha, event, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, branch, ci } = require('./index')
 
 if (ci) {
   console.log('values: ', repo, sha, event, branch, ci)
@@ -21,6 +21,12 @@ if (ci) {
       process.env.WERCKER_GIT_COMMIT
 
     t.is(sha, real_sha)
+  })
+
+  test('commit_message is set', t => {
+    const real_commit_message = process.env.TRAVIS_COMMIT_MESSAGE || ''
+    // Only travis sets commit message
+    t.ish(commit_message, real_commit_message)
   })
 
   test('event is correctly set', t => {
