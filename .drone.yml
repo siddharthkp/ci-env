@@ -6,7 +6,7 @@ env:
  - NODE_ENV=development
  - NPM_CONFIG_LOGLEVEL=warn
 script:
-  - env
+  - env | sort
   - npm install
   - npm run test
 
@@ -18,7 +18,7 @@ build:
       - NODE_ENV=development
       - NPM_CONFIG_LOGLEVEL=warn
     commands:
-      - env
+      - env | sort
       - npm install
       - npm run test
     when:
