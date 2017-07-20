@@ -12,7 +12,7 @@ if (ci) {
     else if (process.env.DRONE) t.is(ci, 'drone')
   })
 
-  test('repo is correctly set', t => t.is(repo, 'montmanu/ci-env'))
+  test('repo is correctly set', t => t.is(repo, 'siddharthkp/ci-env'))
 
   test('sha is set', t => {
     const real_sha =

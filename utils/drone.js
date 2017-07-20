@@ -4,7 +4,7 @@
  * Older versions of drone (< v4.0) do not export `DRONE_REPO` or `CI_REPO`.
  * They do export `DRONE_REMOTE` and / or `CI_REMOTE` with the git URL.
  * 
- * e.g., `DRONE_REMOTE=git://github.com/montmanu/ci-env.git`
+ * e.g., `DRONE_REMOTE=git://github.com/siddharthkp/ci-env.git`
  * 
  * @param {Object} env object in shape of `process.env`
  * @param {String} env.DRONE_REMOTE git URL of remote repository
