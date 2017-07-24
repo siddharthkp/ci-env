@@ -37,6 +37,17 @@ if (process.env.TRAVIS) {
   commit_message = '' // wercker does not expose commit message
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
+} else if (process.env.CI) {
+  // Generic variables for docker images, custom CI builds, etc.
+  
+  repo =
+    process.env.CI_REPO_OWNER + '/' + process.env.CI_REPO_NAME
+
+  sha = process.env.CI_COMMIT_SHA
+  event = process.env.CI_EVENT || 'push'
+  commit_message = process.env.CI_COMMIT_MESSAGE
+  branch = process.env.CI_BRANCH
+  ci = 'custom'
 }
 
 module.exports = { repo, sha, event, commit_message, branch, ci }
