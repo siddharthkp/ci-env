@@ -1,3 +1,4 @@
+let drone = require('./utils/drone')
 let repo, sha, event, commit_message, branch, ci
 
 if (process.env.TRAVIS) {
@@ -37,6 +38,18 @@ if (process.env.TRAVIS) {
   commit_message = '' // wercker does not expose commit message
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
+} else if (process.env.DRONE) {
+  // Reference: http://readme.drone.io/usage/environment-reference/ for reference.
+  
+  repo = process.env.DRONE_REPO || process.env.CI_REPO || drone.getLegacyRepo(process.env)
+  sha = process.env.DRONE_COMMIT || process.env.CI_COMMIT
+  // DRONE_BUILD_EVENT available in drone > v0.5
+  // DRONE_EVENT, CI_EVENT available in drone < v0.5
+  // no EVENT available in drone < v0.4
+  event = process.env.DRONE_BUILD_EVENT || process.env.DRONE_EVENT || process.env.CI_EVENT || 'push'
+  commit_message = '' // drone does not expose commit message
+  branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
+  ci = 'drone'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
   
