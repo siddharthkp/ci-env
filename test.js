@@ -53,11 +53,26 @@ if (ci) {
 
   test('platform is correctly set', t => {
     const pattern = new RegExp(/https:\/\/([a-z]+)/i)
-    const real_platform =
-    pattern.exec(process.env.CIRCLE_REPOSITORY_URL)[1] ||
-    /[a-z]+/i.exec(process.env.WERCKER_GIT_DOMAIN) ||
-    pattern.exec(process.env.DRONE_REMOTE_URL)[1] ||
-    'github' // travis ci works with github only
+    let matchedStrings;
+    let real_platform;
+    if(process.env.TRAVIS){
+      real_platform = 'github'
+    }
+    if(process.env.CIRCLECI){
+      matchedStrings = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[1]) || ''
+    }
+    if(process.env.WERCKER){
+      matchedStrings = /[a-z]+/i.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[0]) || ''
+    }
+    if(process.env.DRONE){
+      matchedStrings = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[1]) || ''
+    }
+    if(process.env.CI){
+      real_platform = process.env.CI_PLATFORM
+    }
 
   t.is(platform, real_platform)
   })

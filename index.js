@@ -37,7 +37,8 @@ if (process.env.TRAVIS) {
   commit_message = '' // circle does not expose commit message
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
-  platform = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)[1]
+  const matchedStrings = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)
+  platform = (matchedStrings && matchedStrings[1]) || ''
 } else if (process.env.WERCKER) {
   // Reference: https://devcenter.wercker.com/docs/environment-variables/available-env-vars
 
@@ -50,8 +51,9 @@ if (process.env.TRAVIS) {
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
 
+  const matchedStrings = /[a-z]+/i.exec(process.env.WERCKER_GIT_DOMAIN)
   // As wercker provides only the domain (like github.com) not the full repo url
-  platform = /[a-z]+/i.exec(process.env.WERCKER_GIT_DOMAIN)[0]
+  platform = (matchedStrings && matchedStrings[0]) || ''
 } else if (process.env.DRONE) {
   // Reference: http://readme.drone.io/usage/environment-reference/ for reference.
   
@@ -64,7 +66,8 @@ if (process.env.TRAVIS) {
   commit_message = '' // drone does not expose commit message
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
-  platform = pattern.exec(process.env.DRONE_REMOTE_URL)[1]
+  const matchedStrings =  pattern.exec(process.env.DRONE_REMOTE_URL)
+  platform = (matchedStrings && matchedStrings[1]) || ''
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
   
