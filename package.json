@@ -17,5 +17,13 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "0.20.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/siddharthkp/ci-env.git"
+  },
+  "bugs": {
+    "url": "https://github.com/siddharthkp/ci-env/issues"
+  },
+  "homepage": "https://github.com/siddharthkp/ci-env#readme"
 }
