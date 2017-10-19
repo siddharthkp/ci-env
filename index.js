@@ -1,5 +1,11 @@
 let drone = require('./utils/drone')
-let repo, sha, event, commit_message, branch, ci
+let repo, sha, event, commit_message, branch, ci, platform
+
+// Generic pattern that is mostly used
+// First matched group captured by capturing parenthesis will be the "platform"
+// Will use exec method to get the matched groups. 1st index of the matched groups
+// array will hold the "platform"
+const pattern = new RegExp(/https:\/\/([a-z]+)/i)
 
 if (process.env.TRAVIS) {
   // Reference: https://docs.travis-ci.com/user/environment-variables
@@ -14,6 +20,10 @@ if (process.env.TRAVIS) {
     : process.env.TRAVIS_PULL_REQUEST_BRANCH
 
   ci = 'travis'
+
+  // As travis ci works only with github.com
+  // Reference: https://docs.travis-ci.com/user/customizing-the-build/#What-repository-providers-or-version-control-systems-can-I-use%3F
+  platform = 'github'
 } else if (process.env.CIRCLECI) {
   // Reference: https://circleci.com/docs/1.0/environment-variables
 
@@ -27,6 +37,7 @@ if (process.env.TRAVIS) {
   commit_message = '' // circle does not expose commit message
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
+  platform = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)[1]
 } else if (process.env.WERCKER) {
   // Reference: https://devcenter.wercker.com/docs/environment-variables/available-env-vars
 
@@ -38,6 +49,9 @@ if (process.env.TRAVIS) {
   commit_message = '' // wercker does not expose commit message
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
+
+  // As wercker provides only the domain (like github.com) not the full repo url
+  platform = /[a-z]+/i.exec(process.env.WERCKER_GIT_DOMAIN)[0]
 } else if (process.env.DRONE) {
   // Reference: http://readme.drone.io/usage/environment-reference/ for reference.
   
@@ -50,6 +64,7 @@ if (process.env.TRAVIS) {
   commit_message = '' // drone does not expose commit message
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
+  platform = pattern.exec(process.env.DRONE_REMOTE_URL)[1]
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
   
@@ -61,6 +76,7 @@ if (process.env.TRAVIS) {
   commit_message = process.env.CI_COMMIT_MESSAGE
   branch = process.env.CI_BRANCH
   ci = 'custom'
+  platform = process.env.CI_PLATFORM
 }
 
-module.exports = { repo, sha, event, commit_message, branch, ci }
+module.exports = { repo, sha, event, commit_message, branch, ci, platform }

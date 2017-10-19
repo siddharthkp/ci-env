@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, branch, ci, platform } = require('./index')
 
 if (ci) {
   console.log('values: ', repo, sha, event, branch, ci)
@@ -49,6 +49,17 @@ if (ci) {
 
       t.is(branch, real_branch)
     }
+  })
+
+  test('platform is correctly set', t => {
+    const pattern = new RegExp(/https:\/\/([a-z]+)/i)
+    const real_platform =
+    pattern.exec(process.env.CIRCLE_REPOSITORY_URL)[1] ||
+    /[a-z]+/i.exec(process.env.WERCKER_GIT_DOMAIN) ||
+    pattern.exec(process.env.DRONE_REMOTE_URL)[1] ||
+    'github' // travis ci works with github only
+
+  t.is(platform, real_platform)
   })
 } else {
   console.log('These tests can only run in CI environments')
