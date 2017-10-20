@@ -1,9 +1,9 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, branch, ci, platform } = require('./index')
 
 if (ci) {
-  console.log('values: ', repo, sha, event, branch, ci)
+  console.log('values: ', repo, sha, event, branch, ci, platform)
 
   test('ci is correctly set', t => {
     if (process.env.TRAVIS) t.is(ci, 'travis')
@@ -49,6 +49,32 @@ if (ci) {
 
       t.is(branch, real_branch)
     }
+  })
+
+  test('platform is correctly set', t => {
+    const pattern = new RegExp(/https:\/\/([a-z]+)/i)
+    let matchedStrings;
+    let real_platform;
+    if(process.env.TRAVIS){
+      real_platform = 'github'
+    }
+    if(process.env.CIRCLECI){
+      matchedStrings = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[1]) || ''
+    }
+    if(process.env.WERCKER){
+      matchedStrings = /[a-z]+/i.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[0]) || ''
+    }
+    if(process.env.DRONE){
+      matchedStrings = pattern.exec(process.env.CIRCLE_REPOSITORY_URL)
+      real_platform = (matchedStrings && matchedStrings[1]) || ''
+    }
+    if(process.env.CI){
+      real_platform = process.env.CI_PLATFORM
+    }
+
+  t.is(platform, real_platform)
   })
 } else {
   console.log('These tests can only run in CI environments')
