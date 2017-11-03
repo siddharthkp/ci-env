@@ -50,6 +50,8 @@ if (process.env.TRAVIS) {
   commit_message = '' // drone does not expose commit message
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
+} else if (process.env.GITLAB_CI){
+  ci = 'gitlab'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
   
