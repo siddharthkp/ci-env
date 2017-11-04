@@ -51,7 +51,9 @@ if (ci && ci !== 'gitlab') {
     }
   })
 } else if (process.env.CI && process.env.GITLAB_CI) {
-  t.is(ci, 'gitlab')
+  test('ci is correctly set', t => {
+    t.is(ci, 'gitlab')
+  })
 } else {
   console.log('These tests can only run in CI environments')
   test(t => t.pass())
