@@ -2,7 +2,7 @@ const test = require('ava')
 
 const { repo, sha, event, commit_message, branch, ci } = require('./index')
 
-if (ci) {
+if (ci && ci !== 'gitlab') {
   console.log('values: ', repo, sha, event, branch, ci)
 
   test('ci is correctly set', t => {
@@ -50,6 +50,8 @@ if (ci) {
       t.is(branch, real_branch)
     }
   })
+} else if (process.env.CI && process.env.GITLAB_CI) {
+  t.is(ci, 'gitlab')
 } else {
   console.log('These tests can only run in CI environments')
   test(t => t.pass())
