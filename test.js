@@ -1,8 +1,8 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, branch, ci, platform } = require('./index')
 
-if (ci && ci !== 'gitlab') {
+if (ci && platform === 'github') {
   console.log('values: ', repo, sha, event, branch, ci)
 
   test('ci is correctly set', t => {
@@ -50,7 +50,7 @@ if (ci && ci !== 'gitlab') {
       t.is(branch, real_branch)
     }
   })
-} else if (process.env.CI && process.env.GITLAB_CI) {
+} else if (ci && platform === 'gitlab') {
   test('ci is correctly set', t => {
     t.is(ci, 'gitlab')
   })

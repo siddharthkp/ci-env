@@ -1,5 +1,9 @@
 let drone = require('./utils/drone')
 let repo, sha, event, commit_message, branch, ci
+// platform denotes code hosting provider i.e github, gitlab, bitbucket etc.
+// Had to introduce this variable as there are cases when CI is run on the same platform where code is hosted as those cases need to be handled differently.
+// Default value is github
+let platform = 'github';
 
 if (process.env.TRAVIS) {
   // Reference: https://docs.travis-ci.com/user/environment-variables
@@ -51,6 +55,7 @@ if (process.env.TRAVIS) {
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
 } else if (process.env.GITLAB_CI){
+  platform = 'gitlab'
   ci = 'gitlab'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
@@ -65,4 +70,4 @@ if (process.env.TRAVIS) {
   ci = 'custom'
 }
 
-module.exports = { repo, sha, event, commit_message, branch, ci }
+module.exports = { repo, sha, event, commit_message, branch, ci, platform }
