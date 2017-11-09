@@ -1,5 +1,5 @@
 let drone = require('./utils/drone')
-let repo, sha, event, commit_message, branch, ci
+let repo, sha, event, commit_message, pull_request_number, branch, ci
 
 if (process.env.TRAVIS) {
   // Reference: https://docs.travis-ci.com/user/environment-variables
@@ -8,6 +8,7 @@ if (process.env.TRAVIS) {
   sha = process.env.TRAVIS_PULL_REQUEST_SHA || process.env.TRAVIS_COMMIT
   event = process.env.TRAVIS_EVENT_TYPE
   commit_message = process.env.TRAVIS_COMMIT_MESSAGE
+  pull_request_number = process.env.TRAVIS_PULL_REQUEST
 
   branch = process.env.TRAVIS_EVENT_TYPE === 'push'
     ? process.env.TRAVIS_BRANCH
@@ -25,6 +26,7 @@ if (process.env.TRAVIS) {
   sha = process.env.CIRCLE_SHA1
   event = 'push'
   commit_message = '' // circle does not expose commit message
+  pull_request_number = process.env.CI_PULL_REQUEST.split('/').pop() // take number from returns url
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
 } else if (process.env.WERCKER) {
@@ -36,10 +38,11 @@ if (process.env.TRAVIS) {
   sha = process.env.WERCKER_GIT_COMMIT
   event = 'push'
   commit_message = '' // wercker does not expose commit message
+  pull_request_number = '' // wercker does not expose pull request number
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
 } else if (process.env.DRONE) {
-  // Reference: http://readme.drone.io/usage/environment-reference/ for reference.
+  // Reference: http://readme.drone.io/usage/environment-reference
   
   repo = process.env.DRONE_REPO || process.env.CI_REPO || drone.getLegacyRepo(process.env)
   sha = process.env.DRONE_COMMIT || process.env.CI_COMMIT
@@ -48,6 +51,7 @@ if (process.env.TRAVIS) {
   // no EVENT available in drone < v0.4
   event = process.env.DRONE_BUILD_EVENT || process.env.DRONE_EVENT || process.env.CI_EVENT || 'push'
   commit_message = '' // drone does not expose commit message
+  pull_request_number = process.env.DRONE_PULL_REQUEST
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
 } else if (process.env.CI) {
@@ -59,8 +63,9 @@ if (process.env.TRAVIS) {
   sha = process.env.CI_COMMIT_SHA
   event = process.env.CI_EVENT || 'push'
   commit_message = process.env.CI_COMMIT_MESSAGE
+  pull_request_nubmer = process.env.CI_PULL_REQUEST_NUMBER
   branch = process.env.CI_BRANCH
   ci = 'custom'
 }
 
-module.exports = { repo, sha, event, commit_message, branch, ci }
+module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci }

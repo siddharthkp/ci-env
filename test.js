@@ -1,9 +1,9 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('./index')
 
 if (ci) {
-  console.log('values: ', repo, sha, event, branch, ci)
+  console.log('values: ', { repo, sha, event, commit_message, pull_request_number, branch, ci })
 
   test('ci is correctly set', t => {
     if (process.env.TRAVIS) t.is(ci, 'travis')
@@ -29,6 +29,20 @@ if (ci) {
     const real_commit_message = process.env.TRAVIS_COMMIT_MESSAGE || ''
     // Only travis sets commit message
     t.is(commit_message, real_commit_message)
+  })
+  
+  test('pull_request_number is set', t => {
+    
+    let circlePullRequestNumber
+    if (process.env.CI_PULL_REQUEST) circlePullRequestNumber = process.env.CI_PULL_REQUEST.split('/').pop()
+    
+    const real_pull_request_number =
+      process.env.TRAVIS_PULL_REQUEST ||
+      process.env.DRONE_PULL_REQUEST ||
+      circlePullRequestNumber || 
+      '' // wercker does not expose pull request number
+
+    t.is(pull_request_number, real_pull_request_number)
   })
 
   test('event is correctly set', t => {
