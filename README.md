@@ -23,7 +23,7 @@ npm install ci-env
 #### Usage
 
 ```js
-const { repo, sha, event, branch, ci } = require('ci-env')
+const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('ci-env')
 ```
 
 &nbsp;
