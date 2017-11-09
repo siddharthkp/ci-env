@@ -26,7 +26,7 @@ if (process.env.TRAVIS) {
   sha = process.env.CIRCLE_SHA1
   event = 'push'
   commit_message = '' // circle does not expose commit message
-  pull_request_number = process.env.CI_PULL_REQUEST
+  pull_request_number = process.env.CI_PULL_REQUEST.split('/').pop() // take number from returns url
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
 } else if (process.env.WERCKER) {
