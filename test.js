@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, branch, ci } = require('./index')
+const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('./index')
 
 if (ci) {
   console.log('values: ', repo, sha, event, branch, ci)
