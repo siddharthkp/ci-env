@@ -3,7 +3,7 @@ const test = require('ava')
 const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('./index')
 
 if (ci) {
-  console.log('values: ', repo, sha, event, commit_message, pull_request_number, branch, ci)
+  console.log('values: ', { repo, sha, event, commit_message, pull_request_number, branch, ci })
 
   test('ci is correctly set', t => {
     if (process.env.TRAVIS) t.is(ci, 'travis')
