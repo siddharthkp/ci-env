@@ -63,7 +63,7 @@ if (process.env.TRAVIS) {
   sha = process.env.CI_COMMIT_SHA
   event = process.env.CI_EVENT || 'push'
   commit_message = process.env.CI_COMMIT_MESSAGE
-  pull_request_nubmer = process.env.CI_PULL_REQUEST_NUMBER
+  pull_request_nubmer = process.env.CI_PULL_REQUEST
   branch = process.env.CI_BRANCH
   ci = 'custom'
 }
