@@ -38,6 +38,7 @@ if (process.env.TRAVIS) {
   sha = process.env.WERCKER_GIT_COMMIT
   event = 'push'
   commit_message = '' // wercker does not expose commit message
+  pull_request_number = '' // wercker does not expose pull request number
   branch = process.env.WERCKER_GIT_BRANCH
   ci = 'wercker'
 } else if (process.env.DRONE) {
