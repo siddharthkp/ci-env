@@ -26,7 +26,7 @@ if (process.env.TRAVIS) {
   sha = process.env.CIRCLE_SHA1
   event = 'push'
   commit_message = '' // circle does not expose commit message
-  pull_request_number = process.env.CIRCLE_PULL_REQUEST
+  pull_request_number = process.env.CI_PULL_REQUEST
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
 } else if (process.env.WERCKER) {
@@ -63,7 +63,7 @@ if (process.env.TRAVIS) {
   sha = process.env.CI_COMMIT_SHA
   event = process.env.CI_EVENT || 'push'
   commit_message = process.env.CI_COMMIT_MESSAGE
-  pull_request_nubmer = process.env.CI_PULL_REQUEST
+  pull_request_nubmer = process.env.CI_PULL_REQUEST_NUMBER
   branch = process.env.CI_BRANCH
   ci = 'custom'
 }
