@@ -30,6 +30,16 @@ if (ci) {
     // Only travis sets commit message
     t.is(commit_message, real_commit_message)
   })
+  
+  test('pull_request_number is set', t => {
+    const real_pull_request_number =
+      process.env.TRAVIS_PULL_REQUEST ||
+      process.env.CIRCLE_PULL_REQUEST ||
+      process.env.DRONE_PULL_REQUEST ||
+      '' // wercker does not expose pull request number
+
+    t.is(pull_request_number, real_pull_request_number)
+  })
 
   test('event is correctly set', t => {
     if (ci === 'travis' && process.env.TRAVIS_EVENT_TYPE === 'pull_request')
