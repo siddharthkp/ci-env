@@ -32,10 +32,14 @@ if (ci) {
   })
   
   test('pull_request_number is set', t => {
+    
+    let circlePullRequestNumber
+    if (process.env.CI_PULL_REQUEST) circlePullRequestNumber = process.env.CI_PULL_REQUEST.split('/').pop()
+    
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
-      process.env.CI_PULL_REQUEST_NUMBER ||
       process.env.DRONE_PULL_REQUEST ||
+      circlePullRequestNumber || 
       '' // wercker does not expose pull request number
 
     t.is(pull_request_number, real_pull_request_number)
