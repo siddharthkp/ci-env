@@ -26,7 +26,9 @@ if (process.env.TRAVIS) {
   sha = process.env.CIRCLE_SHA1
   event = 'push'
   commit_message = '' // circle does not expose commit message
-  pull_request_number = process.env.CI_PULL_REQUEST.split('/').pop() // take number from returns url
+  if (process.env.CI_PULL_REQUEST) {
+    pull_request_number = process.env.CI_PULL_REQUEST.split('/').pop() // take number from returns url
+  }
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
 } else if (process.env.WERCKER) {
@@ -43,7 +45,7 @@ if (process.env.TRAVIS) {
   ci = 'wercker'
 } else if (process.env.DRONE) {
   // Reference: http://readme.drone.io/usage/environment-reference
-  
+
   repo = process.env.DRONE_REPO || process.env.CI_REPO || drone.getLegacyRepo(process.env)
   sha = process.env.DRONE_COMMIT || process.env.CI_COMMIT
   // DRONE_BUILD_EVENT available in drone > v0.5
@@ -56,7 +58,7 @@ if (process.env.TRAVIS) {
   ci = 'drone'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
-  
+
   repo =
     process.env.CI_REPO_OWNER + '/' + process.env.CI_REPO_NAME
 
