@@ -8,7 +8,7 @@
 
 &nbsp;
 
-Supports travisCI and circleCI.
+Supports travisCI, circleCI and Codeship.
 
 &nbsp;
 

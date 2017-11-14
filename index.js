@@ -56,6 +56,17 @@ if (process.env.TRAVIS) {
   pull_request_number = process.env.DRONE_PULL_REQUEST
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
+} else if (process.env.CI_NAME === 'codeship') {
+  // Reference: https://documentation.codeship.com/pro/builds-and-configuration/environment-variables/#default-environment-variables
+
+  repo = process.env.CI_REPO_NAME
+  sha = process.env.CI_COMMIT_ID
+  commit_message = process.env.CI_COMMIT_MESSAGE || process.env.CI_MESSAGE
+  branch = process.env.CI_BRANCH
+
+  // CI_PULL_REQUEST is always false
+  event = 'push'
+  ci = 'codeship'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
