@@ -8,7 +8,7 @@
 
 &nbsp;
 
-Supports travisCI and circleCI.
+Supports travis, circle, wercker and drone
 
 &nbsp;
 
