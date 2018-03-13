@@ -8,7 +8,9 @@
 
 &nbsp;
 
-Supports travis, circle, wercker and drone
+Supports travis, circle, wercker, drone and codeship.
+
+Kinda supports custom CI as well. [Specs here](https://github.com/siddharthkp/ci-env/blob/master/index.js#L68-L79)
 
 &nbsp;
 
