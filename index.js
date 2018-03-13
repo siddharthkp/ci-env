@@ -55,9 +55,10 @@ if (process.env.TRAVIS) {
   ci = 'drone'
 } else if (process.env.CI_NAME === 'codeship') {
   // Reference: https://documentation.codeship.com/basic/builds-and-configuration/set-environment-variables/#default-environment-variables
+
   repo = process.env.CI_REPO_NAME
   branch = process.env.CI_BRANCH
-  commit_message = process.env.CI_MESSAGE
+  commit_message = process.env.CI_COMMIT_MESSAGE || process.env.CI_MESSAGE
 
   event = 'push'
   sha = ''

@@ -27,7 +27,11 @@ if (ci) {
   })
 
   test('commit_message is set', t => {
-    const real_commit_message = process.env.TRAVIS_COMMIT_MESSAGE || process.env.CI_MESSAGE || ''
+    const real_commit_message =
+      process.env.TRAVIS_COMMIT_MESSAGE ||
+      process.env.CI_COMMIT_MESSAGE ||
+      process.env.CI_MESSAGE ||
+      ''
     // Only travis and codeship set commit message
     t.is(commit_message, real_commit_message)
   })
