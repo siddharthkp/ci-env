@@ -10,18 +10,16 @@ if (process.env.TRAVIS) {
   commit_message = process.env.TRAVIS_COMMIT_MESSAGE
   pull_request_number = process.env.TRAVIS_PULL_REQUEST
 
-  branch = process.env.TRAVIS_EVENT_TYPE === 'push'
-    ? process.env.TRAVIS_BRANCH
-    : process.env.TRAVIS_PULL_REQUEST_BRANCH
+  branch =
+    process.env.TRAVIS_EVENT_TYPE === 'push'
+      ? process.env.TRAVIS_BRANCH
+      : process.env.TRAVIS_PULL_REQUEST_BRANCH
 
   ci = 'travis'
 } else if (process.env.CIRCLECI) {
   // Reference: https://circleci.com/docs/1.0/environment-variables
 
-  repo =
-    process.env.CIRCLE_PROJECT_USERNAME +
-    '/' +
-    process.env.CIRCLE_PROJECT_REPONAME
+  repo = process.env.CIRCLE_PROJECT_USERNAME + '/' + process.env.CIRCLE_PROJECT_REPONAME
 
   sha = process.env.CIRCLE_SHA1
   event = 'push'
@@ -34,8 +32,7 @@ if (process.env.TRAVIS) {
 } else if (process.env.WERCKER) {
   // Reference: https://devcenter.wercker.com/docs/environment-variables/available-env-vars
 
-  repo =
-    process.env.WERCKER_GIT_OWNER + '/' + process.env.WERCKER_GIT_REPOSITORY
+  repo = process.env.WERCKER_GIT_OWNER + '/' + process.env.WERCKER_GIT_REPOSITORY
 
   sha = process.env.WERCKER_GIT_COMMIT
   event = 'push'
@@ -56,16 +53,27 @@ if (process.env.TRAVIS) {
   pull_request_number = process.env.DRONE_PULL_REQUEST
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
+} else if (process.env.CI_NAME === 'codeship') {
+  // Reference: https://documentation.codeship.com/basic/builds-and-configuration/set-environment-variables/#default-environment-variables
+
+  repo = process.env.CI_REPO_NAME
+  branch = process.env.CI_BRANCH
+  commit_message = process.env.CI_COMMIT_MESSAGE || process.env.CI_MESSAGE
+
+  event = 'push'
+  sha = ''
+  pull_request_number = ''
+
+  ci = 'codeship'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
-  repo =
-    process.env.CI_REPO_OWNER + '/' + process.env.CI_REPO_NAME
+  repo = process.env.CI_REPO_OWNER + '/' + process.env.CI_REPO_NAME
 
   sha = process.env.CI_COMMIT_SHA
   event = process.env.CI_EVENT || 'push'
   commit_message = process.env.CI_COMMIT_MESSAGE
-  pull_request_nubmer = process.env.CI_PULL_REQUEST_NUMBER
+  pull_request_number = process.env.CI_PULL_REQUEST_NUMBER
   branch = process.env.CI_BRANCH
   ci = 'custom'
 }
