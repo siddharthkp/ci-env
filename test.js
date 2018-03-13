@@ -10,6 +10,7 @@ if (ci) {
     else if (process.env.CIRCLECI) t.is(ci, 'circle')
     else if (process.env.WERCKER) t.is(ci, 'wercker')
     else if (process.env.DRONE) t.is(ci, 'drone')
+    else if (process.env.CI_NAME === 'codeship') t.is(ci, 'codeship')
   })
 
   test('repo is correctly set', t => t.is(repo, 'siddharthkp/ci-env'))
@@ -26,20 +27,20 @@ if (ci) {
   })
 
   test('commit_message is set', t => {
-    const real_commit_message = process.env.TRAVIS_COMMIT_MESSAGE || ''
-    // Only travis sets commit message
+    const real_commit_message = process.env.TRAVIS_COMMIT_MESSAGE || process.env.CI_MESSAGE || ''
+    // Only travis and codeship set commit message
     t.is(commit_message, real_commit_message)
   })
-  
+
   test('pull_request_number is set', t => {
-    
     let circlePullRequestNumber
-    if (process.env.CI_PULL_REQUEST) circlePullRequestNumber = process.env.CI_PULL_REQUEST.split('/').pop()
-    
+    if (process.env.CI_PULL_REQUEST)
+      circlePullRequestNumber = process.env.CI_PULL_REQUEST.split('/').pop()
+
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
-      circlePullRequestNumber || 
+      circlePullRequestNumber ||
       '' // wercker does not expose pull request number
 
     t.is(pull_request_number, real_pull_request_number)
@@ -52,14 +53,14 @@ if (ci) {
   })
 
   test('branch is correctly set', t => {
-    if (event === 'pull_request')
-      t.is(branch, process.env.TRAVIS_PULL_REQUEST_BRANCH)
+    if (event === 'pull_request') t.is(branch, process.env.TRAVIS_PULL_REQUEST_BRANCH)
     else {
       const real_branch =
         process.env.TRAVIS_BRANCH ||
         process.env.CIRCLE_BRANCH ||
         process.env.WERCKER_GIT_BRANCH ||
-        process.env.DRONE_BRANCH
+        process.env.DRONE_BRANCH ||
+        process.env.CI_BRANCH // codeship
 
       t.is(branch, real_branch)
     }
