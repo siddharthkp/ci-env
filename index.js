@@ -1,5 +1,5 @@
 let drone = require('./utils/drone')
-let repo, sha, event, commit_message, pull_request_number, branch, ci
+let repo, sha, event, commit_message, pull_request_number, branch, ci, buildUrl
 
 if (process.env.TRAVIS) {
   // Reference: https://docs.travis-ci.com/user/environment-variables
@@ -9,6 +9,7 @@ if (process.env.TRAVIS) {
   event = process.env.TRAVIS_EVENT_TYPE
   commit_message = process.env.TRAVIS_COMMIT_MESSAGE
   pull_request_number = process.env.TRAVIS_PULL_REQUEST
+  buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`
 
   branch =
     process.env.TRAVIS_EVENT_TYPE === 'push'
@@ -78,4 +79,4 @@ if (process.env.TRAVIS) {
   ci = 'custom'
 }
 
-module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci }
+module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci, buildUrl }
