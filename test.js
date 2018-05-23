@@ -1,6 +1,6 @@
 const test = require('ava')
 
-const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('./index')
+const { buildUrl, repo, sha, event, commit_message, pull_request_number, branch, ci } = require('./index')
 
 if (ci) {
   console.log('values: ', { repo, sha, event, commit_message, pull_request_number, branch, ci })
@@ -48,6 +48,12 @@ if (ci) {
       '' // wercker does not expose pull request number
 
     t.is(pull_request_number, real_pull_request_number)
+  })
+
+  test('buildUrl is set', t => {
+    let real_buildUrl
+    if (process.env.TRAVIS) real_buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`
+    t.is(buildUrl, real_buildUrl)
   })
 
   test('event is correctly set', t => {
