@@ -53,7 +53,7 @@ if (ci) {
   test('jobUrl is set', t => {
     let real_jobUrl
     if (process.env.TRAVIS) real_jobUrl = `https://travis-ci.org/${repo}/jobs/${process.env.TRAVIS_JOB_ID}`
-    t.is(buildUrl, real_buildUrl)
+    t.is(jobUrl, real_jobUrl)
   })
 
   test('event is correctly set', t => {
