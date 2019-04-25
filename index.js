@@ -28,6 +28,7 @@ if (process.env.TRAVIS) {
   commit_message = '' // circle does not expose commit message
   if (process.env.CI_PULL_REQUEST) {
     pull_request_number = process.env.CI_PULL_REQUEST.split('/').pop() // take number from returns url
+    event = 'pull_request'
   } else pull_request_number = ''
   branch = process.env.CIRCLE_BRANCH
   ci = 'circle'
