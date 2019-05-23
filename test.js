@@ -65,7 +65,7 @@ if (ci) {
   })
 
   test('event is correctly set', t => {
-    if (ci === 'travis' && process.env.TRAVIS_EVENT_TYPE === 'pull_request')
+    if ((ci === 'travis' && process.env.TRAVIS_EVENT_TYPE === 'pull_request') || (ci === 'github_actions' && process.env.GITHUB_EVENT_NAME === 'pull_request'))
       t.is(event, 'pull_request')
     else t.is(event, 'push')
   })
