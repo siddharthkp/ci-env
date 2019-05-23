@@ -11,6 +11,7 @@ if (ci) {
     else if (process.env.WERCKER) t.is(ci, 'wercker')
     else if (process.env.DRONE) t.is(ci, 'drone')
     else if (process.env.CI_NAME === 'codeship') t.is(ci, 'codeship')
+    else if (process.env.GITHUB_ACTION) t.is(ci, 'github_actions')
   })
 
   test('repo is correctly set', t => t.is(repo, 'siddharthkp/ci-env'))
@@ -21,7 +22,8 @@ if (ci) {
       process.env.TRAVIS_COMMIT ||
       process.env.CIRCLE_SHA1 ||
       process.env.WERCKER_GIT_COMMIT ||
-      process.env.DRONE_COMMIT
+      process.env.DRONE_COMMIT ||
+      process.env.GITHUB_SHA
 
     t.is(sha, real_sha)
   })
@@ -76,7 +78,8 @@ if (ci) {
         process.env.CIRCLE_BRANCH ||
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
-        process.env.CI_BRANCH // codeship
+        process.env.CI_BRANCH || // codeship
+        process.env.GITHUB_REF
 
       t.is(branch, real_branch)
     }
