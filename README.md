@@ -8,7 +8,7 @@
 
 &nbsp;
 
-Supports travis, circle, wercker, drone and codeship.
+Supports travis, circle, wercker, drone, codeship and codefresh.
 
 Kinda supports custom CI as well. [Specs here](https://github.com/siddharthkp/ci-env/blob/master/index.js#L68-L79)
 

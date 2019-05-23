@@ -68,6 +68,18 @@ if (process.env.TRAVIS) {
   pull_request_number = ''
 
   ci = 'codeship'
+} else if (process.env.CF_BUILD_URL) {
+  // https://codefresh.io/docs/docs/codefresh-yaml/variables/
+
+  repo = process.env.CF_REPO_OWNER + '/' + process.env.CF_REPO_NAME
+
+  sha = process.env.CF_REVISION
+  event = 'push'
+  commit_message = process.env.CF_COMMIT_MESSAGE
+  pull_request_number = process.env.CF_PULL_REQUEST_NUMBER
+  branch = process.env.CF_BRANCH
+  buildUrl = process.env.CF_BUILD_URL
+  ci = 'codefresh'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 

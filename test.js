@@ -11,6 +11,7 @@ if (ci) {
     else if (process.env.WERCKER) t.is(ci, 'wercker')
     else if (process.env.DRONE) t.is(ci, 'drone')
     else if (process.env.CI_NAME === 'codeship') t.is(ci, 'codeship')
+    else if (process.env.CF_BUILD_URL) t.is(ci, 'codefresh')
   })
 
   test('repo is correctly set', t => t.is(repo, 'siddharthkp/ci-env'))
@@ -21,7 +22,8 @@ if (ci) {
       process.env.TRAVIS_COMMIT ||
       process.env.CIRCLE_SHA1 ||
       process.env.WERCKER_GIT_COMMIT ||
-      process.env.DRONE_COMMIT
+      process.env.DRONE_COMMIT ||
+      process.env.CF_REVISION
 
     t.is(sha, real_sha)
   })
@@ -31,8 +33,9 @@ if (ci) {
       process.env.TRAVIS_COMMIT_MESSAGE ||
       process.env.CI_COMMIT_MESSAGE ||
       process.env.CI_MESSAGE ||
+      process.env.CF_COMMIT_MESSAGE ||
       ''
-    // Only travis and codeship set commit message
+    // Only travis, codefresh and codeship set commit message
     t.is(commit_message, real_commit_message)
   })
 
@@ -45,6 +48,7 @@ if (ci) {
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
       circlePullRequestNumber ||
+      process.env.CF_PULL_REQUEST_NUMBER ||
       '' // wercker does not expose pull request number
 
     t.is(pull_request_number, real_pull_request_number)
@@ -59,6 +63,7 @@ if (ci) {
   test('buildUrl is set', t => {
     let real_buildUrl
     if (process.env.TRAVIS) real_buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`
+    if (process.env.CF_BUILD_URL) real_buildUrl = process.env.CF_BUILD_URL
     t.is(buildUrl, real_buildUrl)
   })
 
@@ -76,8 +81,8 @@ if (ci) {
         process.env.CIRCLE_BRANCH ||
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
-        process.env.CI_BRANCH // codeship
-
+        process.env.CI_BRANCH || // codeship
+        process.env.CF_BRANCH
       t.is(branch, real_branch)
     }
   })
