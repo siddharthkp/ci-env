@@ -68,6 +68,18 @@ if (process.env.TRAVIS) {
   pull_request_number = ''
 
   ci = 'codeship'
+} else if (process.env.GITHUB_ACTION) {
+  // GitHub Actions
+  // Reference: https://developer.github.com/actions/creating-github-actions/accessing-the-runtime-environment/
+
+  repo = process.env.GITHUB_REPOSITORY
+
+  sha = process.env.GITHUB_SHA
+  event = process.env.GITHUB_EVENT_NAME
+  commit_message = ''
+  pull_request_number = ''
+  branch = process.env.GITHUB_REF
+  ci = 'github_actions'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
