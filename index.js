@@ -64,9 +64,10 @@ if (process.env.TRAVIS) {
   commit_message = process.env.CI_COMMIT_MESSAGE || process.env.CI_MESSAGE
 
   event = 'push'
-  sha = ''
-  pull_request_number = ''
-
+  pull_request_number = process.env.CI_PR_NUMBER
+  sha=process.env.CI_COMMIT_ID, 
+  buildUrl=process.env.CI_BUILD_URL
+  
   ci = 'codeship'
 } else if (process.env.GITHUB_ACTION) {
   // GitHub Actions
