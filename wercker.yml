@@ -1,4 +1,5 @@
-box: nodesource/trusty
+box:
+  id: node:10
 build:
   steps:
     - script:
