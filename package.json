@@ -16,7 +16,7 @@
   "author": "siddharthkp",
   "license": "MIT",
   "devDependencies": {
-    "ava": "0.25.0"
+    "ava": "2.2.0"
   },
   "repository": {
     "type": "git",

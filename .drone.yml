@@ -1,10 +1,10 @@
 # config for drone < v0.4
 # see https://github.com/drone/drone/blob/v0.3.0/.drone.yml for example
 
-image: node:8
+image: node:10
 env:
- - NODE_ENV=development
- - NPM_CONFIG_LOGLEVEL=warn
+  - NODE_ENV=development
+  - NPM_CONFIG_LOGLEVEL=warn
 script:
   - env | sort
   - npm install
@@ -13,7 +13,7 @@ script:
 # config for drone > v0.4
 build:
   test:
-    image: node:8
+    image: node:10
     environment:
       - NODE_ENV=development
       - NPM_CONFIG_LOGLEVEL=warn
