@@ -81,6 +81,13 @@ if (process.env.TRAVIS) {
   pull_request_number = ''
   branch = process.env.GITHUB_REF
   ci = 'github_actions'
+} else if (process.env.NOW_GITHUB_ORG) {
+  // Reference: https://zeit.co/docs/v2/advanced/now-for-github/
+
+  repo = process.env.NOW_GITHUB_ORG + '/' + process.env.NOW_GITHUB_REPO
+  sha = process.env.NOW_GITHUB_COMMIT_SHA
+  branch = process.env.NOW_GITHUB_COMMIT_REF
+  ci = 'now'
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
