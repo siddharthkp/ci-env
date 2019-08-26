@@ -84,6 +84,7 @@ if (process.env.TRAVIS) {
 } else if (process.env.NOW_GITHUB_ORG) {
   // Reference: https://zeit.co/docs/v2/advanced/now-for-github/
 
+  event = 'push'
   repo = process.env.NOW_GITHUB_ORG + '/' + process.env.NOW_GITHUB_REPO
   sha = process.env.NOW_GITHUB_COMMIT_SHA
   branch = process.env.NOW_GITHUB_COMMIT_REF
