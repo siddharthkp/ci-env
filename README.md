@@ -7,7 +7,7 @@
 
 &nbsp;
 
-Supports travis, circle, wercker, drone, codeship, now and GitHub Actions.
+Supports travis, circle, wercker, drone, codeship, now, netlify and GitHub Actions.
 
 Kinda supports custom CI as well. [Specs here](https://github.com/siddharthkp/ci-env/blob/master/index.js#L68-L79)
 

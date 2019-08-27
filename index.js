@@ -81,11 +81,19 @@ if (process.env.TRAVIS) {
   pull_request_number = ''
   branch = process.env.GITHUB_REF
   ci = 'github_actions'
+} else if (process.env.NETLIFY) {
+  // Reference: https://www.netlify.com/docs/continuous-deployment/#environment-variables
+  repo = process.env.REPOSITORY_URL.split('@github.com/').pop()
+  event = process.env.PULL_REQUEST?'pull_request':'push'
+  pull_request_number = process.env.PULL_REQUEST?process.env.REVIEW_ID:''
+  sha = process.env.COMMIT_REF
+  branch = process.env.HEAD
+  ci = 'netlify'
 } else if (process.env.NOW_GITHUB_ORG) {
   // Reference: https://zeit.co/docs/v2/advanced/now-for-github/
-
-  event = 'push'
   repo = process.env.NOW_GITHUB_ORG + '/' + process.env.NOW_GITHUB_REPO
+  event = 'push'
+  pull_request_number = ''
   sha = process.env.NOW_GITHUB_COMMIT_SHA
   branch = process.env.NOW_GITHUB_COMMIT_REF
   ci = 'now'
