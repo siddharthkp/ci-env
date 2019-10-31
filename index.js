@@ -69,7 +69,7 @@ if (process.env.TRAVIS) {
   buildUrl=process.env.CI_BUILD_URL
 
   ci = 'codeship'
-} else if (process.env.GITHUB_ACTIONS) {
+} else if (process.env.GITHUB_ACTION) {
   // GitHub Actions
   // Reference: https://developer.github.com/actions/creating-github-actions/accessing-the-runtime-environment/
 
