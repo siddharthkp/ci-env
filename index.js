@@ -65,9 +65,9 @@ if (process.env.TRAVIS) {
 
   event = 'push'
   pull_request_number = process.env.CI_PR_NUMBER
-  sha=process.env.CI_COMMIT_ID, 
+  sha=process.env.CI_COMMIT_ID,
   buildUrl=process.env.CI_BUILD_URL
-  
+
   ci = 'codeship'
 } else if (process.env.GITHUB_ACTION) {
   // GitHub Actions
@@ -79,7 +79,8 @@ if (process.env.TRAVIS) {
   event = process.env.GITHUB_EVENT_NAME
   commit_message = ''
   pull_request_number = ''
-  branch = process.env.GITHUB_REF
+  // GITHUB_HEAD_REF for pull requests. For commits, GITHUB_REF is of the form refs/heads/master, for example
+  branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF && process.env.GITHUB_REF.split('/')[2]
   ci = 'github_actions'
 } else if (process.env.NETLIFY) {
   // Reference: https://www.netlify.com/docs/continuous-deployment/#environment-variables
