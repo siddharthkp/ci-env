@@ -72,15 +72,19 @@ if (process.env.TRAVIS) {
 } else if (process.env.GITHUB_ACTION) {
   // GitHub Actions
   // Reference: https://developer.github.com/actions/creating-github-actions/accessing-the-runtime-environment/
+  
+  // for pull_request event, GITHUB_REF is of the form refs/pull/<pull_request_number>/merge
+  // for push event, GITHUB_REF is of the form refs/heads/<branch>
+  
+  const pull_request_numberORbranch=process.env.GITHUB_REF.split('/')[2];
 
   repo = process.env.GITHUB_REPOSITORY
-
   sha = process.env.GITHUB_SHA
   event = process.env.GITHUB_EVENT_NAME
   commit_message = ''
-  pull_request_number = ''
+  pull_request_number = event==='pull_request'? pull_request_numberORbranch:''
   // GITHUB_HEAD_REF for pull requests. For commits, GITHUB_REF is of the form refs/heads/master, for example
-  branch = process.env.GITHUB_HEAD_REF || process.env.GITHUB_REF && process.env.GITHUB_REF.split('/')[2]
+  branch = event ==='pull_request'? process.env.GITHUB_HEAD_REF : pull_request_numberORbranch
   ci = 'github_actions'
 } else if (process.env.NETLIFY) {
   // Reference: https://www.netlify.com/docs/continuous-deployment/#environment-variables
