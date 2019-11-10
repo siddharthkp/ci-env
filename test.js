@@ -60,9 +60,9 @@ if (ci) {
     let pullRequestNumber;
     if (process.env.CI_PULL_REQUEST)
       pullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
-    if(process.env.GITHUB_ACTION){
+    if(process.env.GITHUB_ACTION)
       pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
-    }
+    
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
