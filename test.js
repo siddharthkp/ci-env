@@ -57,14 +57,16 @@ if (ci) {
   });
 
   test("pull_request_number is set", t => {
-    let circlePullRequestNumber;
+    let pullRequestNumber;
     if (process.env.CI_PULL_REQUEST)
-      circlePullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
-
+      pullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
+    if(process.env.GITHUB_ACTION){
+      pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
+    }
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
-      circlePullRequestNumber ||
+      pullRequestNumber ||
       ""; // wercker does not expose pull request number
 
     t.is(pull_request_number, real_pull_request_number);
@@ -102,7 +104,7 @@ if (ci) {
     if (event === "pull_request")
       t.is(
         branch,
-        process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.GITHUB_REF
+        process.env.TRAVIS_PULL_REQUEST_BRANCH || process.env.GITHUB_HEAD_REF
       );
     else {
       const real_branch =
@@ -111,7 +113,7 @@ if (ci) {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF;
+        process.env.GITHUB_REF.split('/')[2];
 
       t.is(branch, real_branch);
     }
