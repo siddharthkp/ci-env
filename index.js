@@ -122,5 +122,4 @@ if (process.env.TRAVIS) {
   ci = 'custom'
 }
 
-module.exports = { repo, sha, event, commit_message, branch, ci, platform }
 module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci, platform, jobUrl, buildUrl }
