@@ -1,6 +1,6 @@
 {
   "name": "ci-env",
-  "version": "1.4.0",
+  "version": "1.11.1",
   "description": "Environment variables exposed by CI tools",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "siddharthkp",
   "license": "MIT",
   "devDependencies": {
-    "ava": "0.20.0"
+    "ava": "2.2.0"
   },
   "repository": {
     "type": "git",

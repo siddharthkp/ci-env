@@ -1,14 +1,15 @@
-[![Build Status](http://drone-community.eastus.cloudapp.azure.com/api/badge/github.com/siddharthkp/ci-env/status.svg?branch=master)](http://drone-community.eastus.cloudapp.azure.com/github.com/siddharthkp/ci-env)
-
 <p align="center">
   <br>
   <b>Environment variables exposed by CI tools</b>
-  <br>
+  <br><br>
+  <img src="https://travis-ci.org/siddharthkp/ci-env.svg?branch=master&maxAge=3600"/>
 </p>
 
 &nbsp;
 
-Supports travisCI, circleCI and gitlabCI.
+Supports travis, circle, gitlab, wercker, drone, codeship, now(zeit), netlify and GitHub Actions.
+
+Kinda supports custom CI as well. [Specs here](https://github.com/siddharthkp/ci-env/blob/master/index.js#L68-L79)
 
 &nbsp;
 
@@ -23,7 +24,7 @@ npm install ci-env
 #### Usage
 
 ```js
-const { repo, sha, event, branch, ci } = require('ci-env')
+const { repo, sha, event, commit_message, pull_request_number, branch, ci } = require('ci-env')
 ```
 
 &nbsp;
