@@ -61,6 +61,15 @@ if (process.env.TRAVIS) {
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
 } else if (process.env.GITLAB_CI){
+  // Reference: https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+  // except buildUrl we get all the other variables for gitlab CI
+  repo = process.env.CI_PROJECT_PATH
+  branch = process.env.CI_COMMIT_REF_NAME
+  commit_message = process.env.CI_COMMIT_MESSAGE
+  pull_request_number = process.env.CI_MERGE_REQUEST_ID
+  sha=process.env.CI_COMMIT_SHA
+  event = process.env.CI_PIPELINE_SOURCE
+  jobUrl = process.env.CI_JOB_URL
   platform = 'gitlab'
   ci = 'gitlab'
 } else if (process.env.CI_NAME === 'codeship') {

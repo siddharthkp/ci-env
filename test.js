@@ -13,7 +13,7 @@ const {
   platform
 } = require("./index");
 
-if (ci && platform === 'github') {
+if (ci && platform === "github") {
   console.log("values: ", {
     repo,
     sha,
@@ -61,9 +61,9 @@ if (ci && platform === 'github') {
     let pullRequestNumber;
     if (process.env.CI_PULL_REQUEST)
       pullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
-    if(process.env.GITHUB_ACTION && event === "pull_request")
-      pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
-    
+    if (process.env.GITHUB_ACTION && event === "pull_request")
+      pullRequestNumber = process.env.GITHUB_REF.split("/")[2];
+
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
@@ -76,18 +76,14 @@ if (ci && platform === 'github') {
   test("jobUrl is set", t => {
     let real_jobUrl;
     if (process.env.TRAVIS)
-      real_jobUrl = `https://travis-ci.org/${repo}/jobs/${
-        process.env.TRAVIS_JOB_ID
-      }`;
+      real_jobUrl = `https://travis-ci.org/${repo}/jobs/${process.env.TRAVIS_JOB_ID}`;
     t.is(jobUrl, real_jobUrl);
   });
 
   test("buildUrl is set", t => {
     let real_buildUrl;
     if (process.env.TRAVIS)
-      real_buildUrl = `https://travis-ci.org/${repo}/builds/${
-        process.env.TRAVIS_JOB_ID
-      }`;
+      real_buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`;
     t.is(buildUrl, real_buildUrl);
   });
 
@@ -114,15 +110,30 @@ if (ci && platform === 'github') {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF.split('/')[2];
+        process.env.GITHUB_REF.split("/")[2];
 
       t.is(branch, real_branch);
     }
-  })
-} else if (ci && platform === 'gitlab') {
-  test('ci is correctly set', t => {
-    t.is(ci, 'gitlab')
-  })
+  });
+} else if (ci && platform === "gitlab") {
+  test("ci is correctly set", t => {
+    // let repo, sha, event, commit_message, pull_request_number, branch, ci, jobUrl, buildUrl
+    const real_repo = process.env.CI_PROJECT_PATH;
+    const real_branch = process.env.CI_COMMIT_REF_NAME;
+    const real_commit_message = process.env.CI_COMMIT_MESSAGE;
+    const real_pull_request_number = process.env.CI_MERGE_REQUEST_ID;
+    const real_sha = process.env.CI_COMMIT_SHA;
+    const real_event = process.env.CI_PIPELINE_SOURCE;
+    const real_job_url = process.env.CI_JOB_URL
+    t.is(real_repo, repo);
+    t.is(real_sha, sha);
+    t.is(real_event, event);
+    t.is(real_commit_message, commit_message);
+    t.is(real_pull_request_number, pull_request_number);
+    t.is(real_branch, branch);
+    t.is(ci, "gitlab");
+    t.is(jobUrl, real_job_url)
+  });
 } else {
   test.skip("These tests can only run in CI environments", t => t.pass());
 }
