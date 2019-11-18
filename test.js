@@ -61,8 +61,8 @@ if (ci && platform === "github") {
     let pullRequestNumber;
     if (process.env.CI_PULL_REQUEST)
       pullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
-    if (process.env.GITHUB_ACTION && event === "pull_request")
-      pullRequestNumber = process.env.GITHUB_REF.split("/")[2];
+    if(process.env.GITHUB_ACTION && event === "pull_request")
+      pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
 
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
@@ -76,14 +76,18 @@ if (ci && platform === "github") {
   test("jobUrl is set", t => {
     let real_jobUrl;
     if (process.env.TRAVIS)
-      real_jobUrl = `https://travis-ci.org/${repo}/jobs/${process.env.TRAVIS_JOB_ID}`;
+      real_jobUrl = `https://travis-ci.org/${repo}/jobs/${
+        process.env.TRAVIS_JOB_ID
+      }`;
     t.is(jobUrl, real_jobUrl);
   });
 
   test("buildUrl is set", t => {
     let real_buildUrl;
     if (process.env.TRAVIS)
-      real_buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`;
+      real_buildUrl = `https://travis-ci.org/${repo}/builds/${
+        process.env.TRAVIS_JOB_ID
+      }`;
     t.is(buildUrl, real_buildUrl);
   });
 
@@ -110,7 +114,7 @@ if (ci && platform === "github") {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF.split("/")[2];
+        process.env.GITHUB_REF.split('/')[2];
 
       t.is(branch, real_branch);
     }
