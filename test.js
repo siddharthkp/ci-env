@@ -117,22 +117,35 @@ if (ci && platform === "github") {
   });
 } else if (ci && platform === "gitlab") {
   test("ci is correctly set", t => {
-    // let repo, sha, event, commit_message, pull_request_number, branch, ci, jobUrl, buildUrl
-    const real_repo = process.env.CI_PROJECT_PATH;
-    const real_branch = process.env.CI_COMMIT_REF_NAME;
-    const real_commit_message = process.env.CI_COMMIT_MESSAGE;
-    const real_pull_request_number = process.env.CI_MERGE_REQUEST_ID;
-    const real_sha = process.env.CI_COMMIT_SHA;
-    const real_event = process.env.CI_PIPELINE_SOURCE;
-    const real_job_url = process.env.CI_JOB_URL
-    t.is(real_repo, repo);
-    t.is(real_sha, sha);
-    t.is(real_event, event);
-    t.is(real_commit_message, commit_message);
-    t.is(real_pull_request_number, pull_request_number);
-    t.is(real_branch, branch);
     t.is(ci, "gitlab");
-    t.is(jobUrl, real_job_url)
+  });
+  test("repo is correctly set", t => {
+    const real_repo = process.env.CI_PROJECT_PATH;
+    t.is(real_repo, repo);
+  });
+  test("branch is correctly set", t => {
+    const real_branch = process.env.CI_COMMIT_REF_NAME;
+    t.is(real_branch, branch);
+  });
+  test("commit message is correctly set", t => {
+    const real_commit_message = process.env.CI_COMMIT_MESSAGE;
+    t.is(real_commit_message, commit_message);
+  });
+  test("pull request is correctly set", t => {
+    const real_pull_request_number = process.env.CI_MERGE_REQUEST_ID;
+    t.is(real_pull_request_number, pull_request_number);
+  });
+  test("sha is correctly set", t => {
+    const real_sha = process.env.CI_COMMIT_SHA;
+    t.is(real_sha, sha);
+  });
+  test("event is correctly set", t => {
+    const real_event = process.env.CI_PIPELINE_SOURCE;
+    t.is(real_event, event);
+  });
+  test("job url is correctly set", t => {
+    const real_job_url = process.env.CI_JOB_URL;
+    t.is(jobUrl, real_job_url);
   });
 } else {
   test.skip("These tests can only run in CI environments", t => t.pass());
