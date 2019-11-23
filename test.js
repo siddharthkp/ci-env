@@ -13,7 +13,7 @@ const {
   platform
 } = require("./index");
 
-if (ci && platform === "github") {
+if (ci) {
   console.log("values: ", {
     repo,
     sha,
