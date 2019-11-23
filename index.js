@@ -66,7 +66,7 @@ if (process.env.TRAVIS) {
   repo = process.env.CI_PROJECT_PATH
   branch = process.env.CI_COMMIT_REF_NAME
   commit_message = process.env.CI_COMMIT_MESSAGE
-  pull_request_number = process.env.CI_MERGE_REQUEST_ID
+  pull_request_number = (process.env.CI_MERGE_REQUEST_ID || '') // no pull request numnber in case the CI is run for the branch without a pull request
   sha=process.env.CI_COMMIT_SHA
   event = process.env.CI_PIPELINE_SOURCE
   jobUrl = process.env.CI_JOB_URL
