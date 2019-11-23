@@ -121,8 +121,8 @@ if (ci) {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF.split('/')[2] ||
-        process.env.CI_COMMIT_REF_NAME; // gitlab
+        process.env.CI_COMMIT_REF_NAME || // gitlab
+        process.env.GITHUB_REF.split('/')[2]
 
       t.is(branch, real_branch);
     }
