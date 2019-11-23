@@ -31,9 +31,13 @@ if (ci && platform === "github") {
     else if (process.env.DRONE) t.is(ci, "drone");
     else if (process.env.CI_NAME === "codeship") t.is(ci, "codeship");
     else if (process.env.GITHUB_ACTION) t.is(ci, "github_actions");
+    else if (process.env.GITLAB_CI) t.is(ci, "gitlab");
   });
 
-  test("repo is correctly set", t => t.is(repo, "siddharthkp/ci-env"));
+  test("repo is correctly set", t => {
+    if (process.env.GITLAB_CI) t.is(repo, process.env.CI_PROJECT_PATH);
+    else t.is(repo, "siddharthkp/ci-env");
+  });
 
   test("sha is set", t => {
     const real_sha =
@@ -42,7 +46,8 @@ if (ci && platform === "github") {
       process.env.CIRCLE_SHA1 ||
       process.env.WERCKER_GIT_COMMIT ||
       process.env.DRONE_COMMIT ||
-      process.env.GITHUB_SHA;
+      process.env.GITHUB_SHA ||
+      process.env.CI_COMMIT_SHA; //gitlab
 
     t.is(sha, real_sha);
   });
@@ -67,6 +72,7 @@ if (ci && platform === "github") {
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
+      process.env.CI_MERGE_REQUEST_ID || //gitlab
       pullRequestNumber ||
       ""; // wercker does not expose pull request number
 
@@ -79,6 +85,7 @@ if (ci && platform === "github") {
       real_jobUrl = `https://travis-ci.org/${repo}/jobs/${
         process.env.TRAVIS_JOB_ID
       }`;
+    else if (process.env.GITLAB_CI) real_jobUrl = process.env.CI_JOB_URL;
     t.is(jobUrl, real_jobUrl);
   });
 
@@ -114,42 +121,11 @@ if (ci && platform === "github") {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF.split('/')[2];
+        process.env.GITHUB_REF.split('/')[2] ||
+        process.env.CI_COMMIT_REF_NAME; // gitlab
 
       t.is(branch, real_branch);
     }
-  });
-} else if (ci && platform === "gitlab") {
-  test("ci is correctly set", t => {
-    t.is(ci, "gitlab");
-  });
-  test("repo is correctly set", t => {
-    const real_repo = process.env.CI_PROJECT_PATH;
-    t.is(real_repo, repo);
-  });
-  test("branch is correctly set", t => {
-    const real_branch = process.env.CI_COMMIT_REF_NAME;
-    t.is(real_branch, branch);
-  });
-  test("commit message is correctly set", t => {
-    const real_commit_message = process.env.CI_COMMIT_MESSAGE;
-    t.is(real_commit_message, commit_message);
-  });
-  test("pull request is correctly set", t => {
-    const real_pull_request_number = process.env.CI_MERGE_REQUEST_ID;
-    t.is(real_pull_request_number, pull_request_number);
-  });
-  test("sha is correctly set", t => {
-    const real_sha = process.env.CI_COMMIT_SHA;
-    t.is(real_sha, sha);
-  });
-  test("event is correctly set", t => {
-    const real_event = process.env.CI_PIPELINE_SOURCE;
-    t.is(real_event, event);
-  });
-  test("job url is correctly set", t => {
-    const real_job_url = process.env.CI_JOB_URL;
-    t.is(jobUrl, real_job_url);
   });
 } else {
   test.skip("These tests can only run in CI environments", t => t.pass());
