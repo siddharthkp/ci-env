@@ -1,4 +1,8 @@
 let drone = require('./utils/drone')
+// platform denotes code hosting provider i.e github, gitlab, bitbucket etc.
+// Had to introduce this variable as there are cases when CI is run on the same platform where code is hosted as those cases need to be handled differently.
+// Default value is github
+let platform = 'github';
 let repo, sha, event, commit_message, pull_request_number, branch, ci, jobUrl, buildUrl
 
 if (process.env.TRAVIS) {
@@ -56,6 +60,18 @@ if (process.env.TRAVIS) {
   pull_request_number = process.env.DRONE_PULL_REQUEST
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH
   ci = 'drone'
+} else if (process.env.GITLAB_CI){
+  // Reference: https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
+  // except buildUrl we get all the other variables for gitlab CI
+  repo = process.env.CI_PROJECT_PATH
+  branch = process.env.CI_COMMIT_REF_NAME
+  commit_message = process.env.CI_COMMIT_MESSAGE
+  pull_request_number = (process.env.CI_MERGE_REQUEST_ID || '') // no pull request numnber in case the CI is run for the branch without a pull request
+  sha=process.env.CI_COMMIT_SHA
+  event = process.env.CI_PIPELINE_SOURCE
+  jobUrl = process.env.CI_JOB_URL
+  platform = 'gitlab'
+  ci = 'gitlab'
 } else if (process.env.CI_NAME === 'codeship') {
   // Reference: https://documentation.codeship.com/basic/builds-and-configuration/set-environment-variables/#default-environment-variables
 
@@ -110,9 +126,9 @@ if (process.env.TRAVIS) {
   sha = process.env.CI_COMMIT_SHA
   event = process.env.CI_EVENT || 'push'
   commit_message = process.env.CI_COMMIT_MESSAGE
-  pull_request_number = process.env.CI_PULL_REQUEST_NUMBER
+  pull_request_number = process.env.CI_MERGE_REQUEST_ID
   branch = process.env.CI_BRANCH
   ci = 'custom'
 }
 
-module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci, jobUrl, buildUrl }
+module.exports = { repo, sha, event, commit_message, branch, pull_request_number, ci, platform, jobUrl, buildUrl }

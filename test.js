@@ -9,7 +9,8 @@ const {
   commit_message,
   pull_request_number,
   branch,
-  ci
+  ci,
+  platform
 } = require("./index");
 
 if (ci) {
@@ -30,9 +31,13 @@ if (ci) {
     else if (process.env.DRONE) t.is(ci, "drone");
     else if (process.env.CI_NAME === "codeship") t.is(ci, "codeship");
     else if (process.env.GITHUB_ACTION) t.is(ci, "github_actions");
+    else if (process.env.GITLAB_CI) t.is(ci, "gitlab");
   });
 
-  test("repo is correctly set", t => t.is(repo, "siddharthkp/ci-env"));
+  test("repo is correctly set", t => {
+    if (process.env.GITLAB_CI) t.is(repo, process.env.CI_PROJECT_PATH);
+    else t.is(repo, "siddharthkp/ci-env");
+  });
 
   test("sha is set", t => {
     const real_sha =
@@ -41,7 +46,8 @@ if (ci) {
       process.env.CIRCLE_SHA1 ||
       process.env.WERCKER_GIT_COMMIT ||
       process.env.DRONE_COMMIT ||
-      process.env.GITHUB_SHA;
+      process.env.GITHUB_SHA ||
+      process.env.CI_COMMIT_SHA; //gitlab
 
     t.is(sha, real_sha);
   });
@@ -62,10 +68,11 @@ if (ci) {
       pullRequestNumber = process.env.CI_PULL_REQUEST.split("/").pop();
     if(process.env.GITHUB_ACTION && event === "pull_request")
       pullRequestNumber = process.env.GITHUB_REF.split('/')[2];
-    
+
     const real_pull_request_number =
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
+      process.env.CI_MERGE_REQUEST_ID || //gitlab
       pullRequestNumber ||
       ""; // wercker does not expose pull request number
 
@@ -78,6 +85,7 @@ if (ci) {
       real_jobUrl = `https://travis-ci.org/${repo}/jobs/${
         process.env.TRAVIS_JOB_ID
       }`;
+    else if (process.env.GITLAB_CI) real_jobUrl = process.env.CI_JOB_URL;
     t.is(jobUrl, real_jobUrl);
   });
 
@@ -113,7 +121,8 @@ if (ci) {
         process.env.WERCKER_GIT_BRANCH ||
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
-        process.env.GITHUB_REF.split('/')[2];
+        process.env.CI_COMMIT_REF_NAME || // gitlab
+        process.env.GITHUB_REF.split('/')[2]
 
       t.is(branch, real_branch);
     }
