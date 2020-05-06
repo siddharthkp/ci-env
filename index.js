@@ -7,6 +7,7 @@ let repo,
   sha,
   event,
   commit_message,
+  pull_request_target_branch,
   pull_request_number,
   branch,
   ci,
@@ -28,6 +29,10 @@ if (process.env.TRAVIS) {
     process.env.TRAVIS_EVENT_TYPE === 'push'
       ? process.env.TRAVIS_BRANCH
       : process.env.TRAVIS_PULL_REQUEST_BRANCH;
+  pull_request_target_branch =
+    process.env.TRAVIS_EVENT_TYPE === 'push' 
+      ? ''
+      : process.env.TRAVIS_BRANCH;
 
   ci = 'travis';
 } else if (process.env.CIRCLECI) {
@@ -57,6 +62,7 @@ if (process.env.TRAVIS) {
   event = 'push';
   commit_message = ''; // wercker does not expose commit message
   pull_request_number = ''; // wercker does not expose pull request number
+  pull_request_target_branch = ''; // wercker does not expose pr target branch
   branch = process.env.WERCKER_GIT_BRANCH;
   ci = 'wercker';
 } else if (process.env.DRONE) {
@@ -77,15 +83,17 @@ if (process.env.TRAVIS) {
     'push';
   commit_message = ''; // drone does not expose commit message
   pull_request_number = process.env.DRONE_PULL_REQUEST;
+  pull_request_target_branch = process.env.DRONE_TARGET_BRANCH;
   branch = process.env.DRONE_BRANCH || process.env.CI_BRANCH;
   ci = 'drone';
 } else if (process.env.GITLAB_CI) {
   // Reference: https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
   // except buildUrl we get all the other variables for gitlab CI
   repo = process.env.CI_PROJECT_PATH;
-  branch = process.env.CI_COMMIT_REF_NAME;
+  branch = process.env.CI_MERGE_REQUEST_SOURCE_BRANCH_NAME || process.env.CI_COMMIT_REF_NAME;
   commit_message = process.env.CI_COMMIT_MESSAGE;
   pull_request_number = process.env.CI_MERGE_REQUEST_ID || ''; // no pull request numnber in case the CI is run for the branch without a pull request
+  pull_request_target_branch = process.env.CI_MERGE_REQUEST_TARGET_BRANCH_NAME || process.env.CI_EXTERNAL_PULL_REQUEST_TARGET_BRANCH_NAME;
   sha = process.env.CI_COMMIT_SHA;
   event = process.env.CI_PIPELINE_SOURCE;
   jobUrl = process.env.CI_JOB_URL;
@@ -100,6 +108,7 @@ if (process.env.TRAVIS) {
 
   event = 'push';
   pull_request_number = process.env.CI_PR_NUMBER;
+  pull_request_target_branch = ''; // codeship does not export pr target branch
   (sha = process.env.CI_COMMIT_ID), (buildUrl = process.env.CI_BUILD_URL);
 
   ci = 'codeship';
@@ -123,12 +132,15 @@ if (process.env.TRAVIS) {
     event === 'pull_request'
       ? process.env.GITHUB_HEAD_REF
       : pull_request_numberORbranch;
+  // GITHUB_BASE_REF for pull requests, otherwise GITHUB_BASE_REF is empty
+  pull_request_target_branch = process.env.GITHUB_BASE_REF;
   ci = 'github_actions';
 } else if (process.env.NETLIFY) {
   // Reference: https://www.netlify.com/docs/continuous-deployment/#environment-variables
   repo = process.env.REPOSITORY_URL.split('@github.com/').pop();
   event = process.env.PULL_REQUEST ? 'pull_request' : 'push';
   pull_request_number = process.env.PULL_REQUEST ? process.env.REVIEW_ID : '';
+  pull_request_target_branch = ''; // netlify does not export pr target branch
   sha = process.env.COMMIT_REF;
   branch = process.env.HEAD;
   ci = 'netlify';
@@ -149,6 +161,7 @@ if (process.env.TRAVIS) {
   event = process.env.CI_EVENT || 'push';
   commit_message = process.env.CI_COMMIT_MESSAGE;
   pull_request_number = process.env.CI_MERGE_REQUEST_ID;
+  pull_request_target_branch = process.env.CI_TARGET_BRANCH;
   branch = process.env.CI_BRANCH;
   ci = process.env.CI;
 }
@@ -160,6 +173,7 @@ module.exports = {
   commit_message,
   branch,
   pull_request_number,
+  pull_request_target_branch,
   ci,
   platform,
   jobUrl,
