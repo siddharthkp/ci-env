@@ -152,6 +152,17 @@ if (process.env.TRAVIS) {
   sha = process.env.NOW_GITHUB_COMMIT_SHA;
   branch = process.env.NOW_GITHUB_COMMIT_REF;
   ci = 'now';
+} else if(process.env.BUDDY) {
+  repo = process.env.BUDDY_PROJECT_NAME;
+  branch = process.env.BUDDY_EXECUTION_BRANCH;
+  commit_message = process.env.BUDDY_EXECUTION_REVISION_MESSAGE;
+  pull_request_number = process.env.BUDDY_EXECUTION_PULL_REQUEST_NO;
+  pull_request_target_branch = process.env.BUDDY_EXECUTION_PULL_REQUEST_BASE_BRANCH;
+  sha = process.env.BUDDY_EXECUTION_REVISION;
+  event = process.env.BUDDY_EXECUTION_MODE;
+  jobUrl = process.env.BUDDY_EXECUTION_REVISION_URL;
+  platform = 'buddy';
+  ci = 'buddy';
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
