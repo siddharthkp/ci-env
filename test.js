@@ -10,7 +10,9 @@ const {
   pull_request_number,
   branch,
   ci,
-  platform
+  platform,
+  domain,
+  prefix,
 } = require("./index");
 
 if (ci) {
@@ -21,7 +23,10 @@ if (ci) {
     commit_message,
     pull_request_number,
     branch,
-    ci
+    ci,
+    platform,
+    domain,
+    prefix
   });
 
   test("ci is correctly set", t => {
