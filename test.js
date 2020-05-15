@@ -132,6 +132,18 @@ if (ci) {
       t.is(branch, real_branch);
     }
   });
+
+  test("domain defaults to undefined", t => {
+    const real_domain = domain; //gitlab
+
+    t.is(real_domain, undefined);
+  });
+
+  test("prefix defaults to undefined", t => {
+    const real_prefix = prefix; //gitlab
+
+    t.is(real_prefix, undefined);
+  });
 } else {
   test.skip("These tests can only run in CI environments", t => t.pass());
 }
