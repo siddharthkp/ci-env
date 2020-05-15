@@ -12,7 +12,9 @@ let repo,
   branch,
   ci,
   jobUrl,
-  buildUrl;
+  buildUrl,
+  domain,
+  prefix;
 
 if (process.env.TRAVIS) {
   // Reference: https://docs.travis-ci.com/user/environment-variables
@@ -175,6 +177,8 @@ if (process.env.TRAVIS) {
   pull_request_target_branch = process.env.CI_TARGET_BRANCH;
   branch = process.env.CI_BRANCH;
   ci = process.env.CI;
+  domain = process.env.CI_REPO_DOMAIN;
+  prefix = process.env.CI_REPO_PREFIX;
 }
 
 module.exports = {
@@ -189,4 +193,6 @@ module.exports = {
   platform,
   jobUrl,
   buildUrl,
+  domain,
+  prefix
 };
