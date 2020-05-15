@@ -134,13 +134,13 @@ if (ci) {
   });
 
   test("domain defaults to undefined", t => {
-    const real_domain = domain; //gitlab
+    const real_domain = domain;
 
     t.is(real_domain, undefined);
   });
 
   test("prefix defaults to undefined", t => {
-    const real_prefix = prefix; //gitlab
+    const real_prefix = prefix;
 
     t.is(real_prefix, undefined);
   });
