@@ -172,7 +172,7 @@ if (process.env.TRAVIS) {
   pull_request_target_branch = process.env.CF_PULL_REQUEST_TARGET;
   sha = process.env.CF_REVISION;
   event = 'push';
-  jobUrl = process.env.CF_BUILD_URL;
+  buildUrl = process.env.CF_BUILD_URL;
   platform = 'codefresh';
   ci = 'codefresh';
 } else if (process.env.CI) {
