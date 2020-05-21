@@ -99,7 +99,7 @@ if (ci) {
       real_buildUrl = `https://travis-ci.org/${repo}/builds/${
         process.env.TRAVIS_JOB_ID
       }`;
-    else if (process.env.CF_BUILD_URL) real_jobUrl = process.env.CF_BUILD_URL;
+    else if (process.env.CF_BUILD_URL) real_buildUrl = process.env.CF_BUILD_URL;
     t.is(buildUrl, real_buildUrl);
   });
 
@@ -127,8 +127,8 @@ if (ci) {
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
         process.env.CI_COMMIT_REF_NAME || // gitlab
-        process.env.GITHUB_REF.split('/')[2] ||
-        process.env.CF_BRANCH;
+        process.env.CF_BRANCH ||
+        process.env.GITHUB_REF.split('/')[2];
 
       t.is(branch, real_branch);
     }
