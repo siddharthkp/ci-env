@@ -15,8 +15,7 @@ let repo,
   buildUrl;
 
 if (process.env.TRAVIS) {
-  const isDotCom = process.env.TRAVIS_BUILD_WEB_URL.includes('.com')
-  const suffix = isDotCom ? '.com' : '.org' 
+  const suffix = process.env.TRAVIS_JOB_WEB_URL.includes('.com') ? '.com' : 'org'
   
   // Reference: https://docs.travis-ci.com/user/environment-variables
 
