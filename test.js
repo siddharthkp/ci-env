@@ -32,6 +32,7 @@ if (ci) {
     else if (process.env.CI_NAME === "codeship") t.is(ci, "codeship");
     else if (process.env.GITHUB_ACTION) t.is(ci, "github_actions");
     else if (process.env.GITLAB_CI) t.is(ci, "gitlab");
+    else if (process.env.CF_BUILD_URL) t.is(ci, "codefresh");
   });
 
   test("repo is correctly set", t => {
@@ -47,7 +48,8 @@ if (ci) {
       process.env.WERCKER_GIT_COMMIT ||
       process.env.DRONE_COMMIT ||
       process.env.GITHUB_SHA ||
-      process.env.CI_COMMIT_SHA; //gitlab
+      process.env.CI_COMMIT_SHA || //gitlab
+      process.env.CF_REVISION;
 
     t.is(sha, real_sha);
   });
@@ -57,6 +59,7 @@ if (ci) {
       process.env.TRAVIS_COMMIT_MESSAGE ||
       process.env.CI_COMMIT_MESSAGE ||
       process.env.CI_MESSAGE ||
+      process.env.CF_COMMIT_MESSAGE ||
       "";
     // Only travis and codeship set commit message
     t.is(commit_message, real_commit_message);
@@ -73,6 +76,7 @@ if (ci) {
       process.env.TRAVIS_PULL_REQUEST ||
       process.env.DRONE_PULL_REQUEST ||
       process.env.CI_MERGE_REQUEST_ID || //gitlab
+      process.env.CF_PULL_REQUEST_NUMBER ||
       pullRequestNumber ||
       ""; // wercker does not expose pull request number
 
@@ -95,6 +99,7 @@ if (ci) {
       real_buildUrl = `https://travis-ci.org/${repo}/builds/${
         process.env.TRAVIS_JOB_ID
       }`;
+    else if (process.env.CF_BUILD_URL) real_buildUrl = process.env.CF_BUILD_URL;
     t.is(buildUrl, real_buildUrl);
   });
 
@@ -122,7 +127,8 @@ if (ci) {
         process.env.DRONE_BRANCH ||
         process.env.CI_BRANCH || // codeship
         process.env.CI_COMMIT_REF_NAME || // gitlab
-        process.env.GITHUB_REF.split('/')[2]
+        process.env.CF_BRANCH ||
+        process.env.GITHUB_REF.split('/')[2];
 
       t.is(branch, real_branch);
     }

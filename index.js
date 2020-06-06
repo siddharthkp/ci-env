@@ -163,6 +163,18 @@ if (process.env.TRAVIS) {
   jobUrl = process.env.BUDDY_EXECUTION_REVISION_URL;
   platform = 'buddy';
   ci = 'buddy';
+} else if(process.env.CF_BUILD_URL) {
+  // Reference: https://codefresh.io/docs/docs/codefresh-yaml/variables/#system-provided-variables
+  repo = process.env.CF_REPO_NAME;
+  branch = process.env.CF_BRANCH;
+  commit_message = process.env.CF_COMMIT_MESSAGE;
+  pull_request_number = process.env.CF_PULL_REQUEST_NUMBER;
+  pull_request_target_branch = process.env.CF_PULL_REQUEST_TARGET;
+  sha = process.env.CF_REVISION;
+  event = 'push';
+  buildUrl = process.env.CF_BUILD_URL;
+  platform = 'codefresh';
+  ci = 'codefresh';
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
