@@ -10,7 +10,9 @@ const {
   pull_request_number,
   branch,
   ci,
-  platform
+  platform,
+  domain,
+  prefix,
 } = require("./index");
 
 if (ci) {
@@ -21,7 +23,10 @@ if (ci) {
     commit_message,
     pull_request_number,
     branch,
-    ci
+    ci,
+    platform,
+    domain,
+    prefix
   });
 
   test("ci is correctly set", t => {
@@ -132,6 +137,18 @@ if (ci) {
 
       t.is(branch, real_branch);
     }
+  });
+
+  test("domain defaults to undefined", t => {
+    const real_domain = domain;
+
+    t.is(real_domain, undefined);
+  });
+
+  test("prefix defaults to undefined", t => {
+    const real_prefix = prefix;
+
+    t.is(real_prefix, undefined);
   });
 } else {
   test.skip("These tests can only run in CI environments", t => t.pass());
