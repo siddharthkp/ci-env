@@ -119,12 +119,12 @@ if (process.env.TRAVIS) {
   // for pull_request event, GITHUB_REF is of the form refs/pull/<pull_request_number>/merge
   // for push event, GITHUB_REF is of the form refs/heads/<branch>
 
+  event = process.env.GITHUB_EVENT_NAME;
   const pull_request_numberORbranch = 
     event === 'pull_request' ? process.env.GITHUB_REF.split('/')[2] : process.env.GITHUB_REF.split('/').slice(2).join('/');
 
   repo = process.env.GITHUB_REPOSITORY;
   sha = process.env.GITHUB_SHA;
-  event = process.env.GITHUB_EVENT_NAME;
   commit_message = '';
   pull_request_number =
     event === 'pull_request' ? pull_request_numberORbranch : '';
