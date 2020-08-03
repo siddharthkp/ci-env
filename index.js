@@ -165,7 +165,7 @@ if (process.env.TRAVIS) {
   ci = 'buddy';
 } else if(process.env.CF_BUILD_URL) {
   // Reference: https://codefresh.io/docs/docs/codefresh-yaml/variables/#system-provided-variables
-  repo = process.env.CF_REPO_NAME;
+  repo = process.env.CF_REPO_OWNER + "/" + process.env.CF_REPO_NAME;
   branch = process.env.CF_BRANCH;
   commit_message = process.env.CF_COMMIT_MESSAGE;
   pull_request_number = process.env.CF_PULL_REQUEST_NUMBER;
