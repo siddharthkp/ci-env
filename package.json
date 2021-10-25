@@ -1,6 +1,6 @@
 {
   "name": "ci-env",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "description": "Environment variables exposed by CI tools",
   "main": "index.js",
   "scripts": {
