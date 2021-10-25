@@ -135,6 +135,15 @@ if (process.env.TRAVIS) {
   // GITHUB_BASE_REF for pull requests, otherwise GITHUB_BASE_REF is empty
   pull_request_target_branch = process.env.GITHUB_BASE_REF;
   ci = 'github_actions';
+} else if (process.env.CF_PAGES) {
+  // Reference: https://developers.cloudflare.com/pages/platform/build-configuration#environment-variables
+  repo = '';
+  event = 'push';
+  pull_request_number = '';
+  pull_request_target_branch = '';
+  sha = process.env.CF_PAGES_COMMIT_SHA;
+  branch = process.env.CF_PAGES_BRANCH;
+  ci = 'cloudflare';
 } else if (process.env.NETLIFY) {
   // Reference: https://www.netlify.com/docs/continuous-deployment/#environment-variables
   repo = process.env.REPOSITORY_URL.split('@github.com/').pop();

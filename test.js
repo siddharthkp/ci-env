@@ -33,6 +33,7 @@ if (ci) {
     else if (process.env.GITHUB_ACTION) t.is(ci, "github_actions");
     else if (process.env.GITLAB_CI) t.is(ci, "gitlab");
     else if (process.env.CF_BUILD_URL) t.is(ci, "codefresh");
+    else if (process.env.CF_PAGES) t.is(ci, "cloudflare");
   });
 
   test("repo is correctly set", t => {
@@ -49,7 +50,8 @@ if (ci) {
       process.env.DRONE_COMMIT ||
       process.env.GITHUB_SHA ||
       process.env.CI_COMMIT_SHA || //gitlab
-      process.env.CF_REVISION;
+      process.env.CF_REVISION ||
+      process.env.CF_PAGES_COMMIT_SHA;
 
     t.is(sha, real_sha);
   });
@@ -128,6 +130,7 @@ if (ci) {
         process.env.CI_BRANCH || // codeship
         process.env.CI_COMMIT_REF_NAME || // gitlab
         process.env.CF_BRANCH ||
+        process.env.CF_PAGES_BRANCH ||
         process.env.GITHUB_REF.split('/')[2];
 
       t.is(branch, real_branch);
