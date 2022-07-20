@@ -1,0 +1,14 @@
+# config for woodpecker: https://woodpecker-ci.org/docs/usage/pipeline-syntax
+
+pipeline:
+  build:
+    image: node:16
+    environment:
+      - NODE_ENV=development
+      - NPM_CONFIG_LOGLEVEL=warn
+    commands:
+      - env | sort
+      - yarn install
+      - yarn test
+    when:
+      event: [ pull_request, push ]

@@ -7,7 +7,7 @@
 
 &nbsp;
 
-Supports travis, circle, gitlab, wercker, drone, codeship, now(zeit), netlify, GitHub Actions, Buddy, Codefresh and Cloudflare Pages.
+Supports travis, circle, gitlab, wercker, drone, codeship, now(zeit), netlify, GitHub Actions, Buddy, Codefresh, Cloudflare Pages and [WoodpeckerCI](https://woodpecker-ci.org).
 
 Kinda supports custom CI as well. [Specs here](https://github.com/siddharthkp/ci-env/blob/master/index.js#L68-L79)
 
