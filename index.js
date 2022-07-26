@@ -184,6 +184,19 @@ if (process.env.TRAVIS) {
   buildUrl = process.env.CF_BUILD_URL;
   platform = 'codefresh';
   ci = 'codefresh';
+} else if (process.env.CI === 'woodpecker') {
+  // Reference: https://woodpecker-ci.org/docs/usage/environment#built-in-environment-variables
+  repo = process.env.CI_REPO;
+  sha = process.env.CI_COMMIT_SHA;
+  event = process.env.CI_BUILD_EVENT;
+  commit_message = process.env.CI_COMMIT_MESSAGE;
+  pull_request_number = process.env.CI_COMMIT_PULL_REQUEST || '';
+  pull_request_target_branch = process.env.CI_COMMIT_TARGET_BRANCH;
+  branch = process.env.CI_COMMIT_BRANCH;
+  buildUrl = process.env.CI_BUILD_LINK;
+  jobUrl = process.env.CI_BUILD_LINK;
+  platform = 'woodpecker';
+  ci = 'woodpecker';
 } else if (process.env.CI) {
   // Generic variables for docker images, custom CI builds, etc.
 
