@@ -162,14 +162,14 @@ if (process.env.TRAVIS) {
   branch = process.env.NOW_GITHUB_COMMIT_REF;
   ci = 'now';
 } else if(process.env.BUDDY) {
-  repo = process.env.BUDDY_PROJECT_NAME;
+  repo = process.env.BUDDY_REPO_SLUG;
   branch = process.env.BUDDY_EXECUTION_BRANCH;
   commit_message = process.env.BUDDY_EXECUTION_REVISION_MESSAGE;
   pull_request_number = process.env.BUDDY_EXECUTION_PULL_REQUEST_NO;
   pull_request_target_branch = process.env.BUDDY_EXECUTION_PULL_REQUEST_BASE_BRANCH;
   sha = process.env.BUDDY_EXECUTION_REVISION;
   event = process.env.BUDDY_EXECUTION_MODE;
-  jobUrl = process.env.BUDDY_EXECUTION_REVISION_URL;
+  jobUrl = process.env.BUDDY_EXECUTION_URL;
   platform = 'buddy';
   ci = 'buddy';
 } else if(process.env.CF_BUILD_URL) {
