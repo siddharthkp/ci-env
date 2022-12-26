@@ -15,6 +15,8 @@ let repo,
   buildUrl;
 
 if (process.env.TRAVIS) {
+  const suffix = process.env.TRAVIS_JOB_WEB_URL.includes('.com') ? '.com' : 'org'
+  
   // Reference: https://docs.travis-ci.com/user/environment-variables
 
   repo = process.env.TRAVIS_REPO_SLUG;
@@ -22,8 +24,8 @@ if (process.env.TRAVIS) {
   event = process.env.TRAVIS_EVENT_TYPE;
   commit_message = process.env.TRAVIS_COMMIT_MESSAGE;
   pull_request_number = process.env.TRAVIS_PULL_REQUEST;
-  jobUrl = `https://travis-ci.org/${repo}/jobs/${process.env.TRAVIS_JOB_ID}`;
-  buildUrl = `https://travis-ci.org/${repo}/builds/${process.env.TRAVIS_JOB_ID}`;
+  jobUrl = `https://travis-ci.${suffix}/${repo}/jobs/${process.env.TRAVIS_JOB_ID}`;
+  buildUrl = `https://travis-ci.${suffix}/${repo}/builds/${process.env.TRAVIS_JOB_ID}`;
 
   branch =
     process.env.TRAVIS_EVENT_TYPE === 'push'
